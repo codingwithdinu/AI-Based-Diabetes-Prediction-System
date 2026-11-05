@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import {
   Activity, ArrowRight, CheckCircle2, ChevronDown, CircleHelp,
   ClipboardList, HeartPulse, Info, LoaderCircle, Menu, ShieldCheck,
@@ -45,7 +45,7 @@ export default function Home() {
     setError("");
   }
 
-  async function submit(event: React.FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
     setError("");
