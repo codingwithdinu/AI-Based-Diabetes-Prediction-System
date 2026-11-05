@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/**/*.py": {
+      "maxDuration": 30,
+      "includeFiles": "diabetes_model.pkl,scaler.pkl"
+    }
+  }
+}
