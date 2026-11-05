@@ -175,12 +175,13 @@ export default function Home() {
               <section className={`result-panel ${result.prediction === 1 ? "result-warn" : "result-ok"}`} aria-live="polite">
                 <div className="result-icon">{result.prediction === 1 ? <Info size={24}/> : <CheckCircle2 size={24}/>}</div>
                 <div className="result-content">
-                  <span className="result-kicker">MODEL SCREENING OUTPUT</span>
-                  <h3>{result.prediction === 1 ? "The model flagged this input for follow-up" : "The model did not flag this input"}</h3>
+                  <span className="result-kicker">YOUR SCREENING RESULT</span>
+                  <h3>{result.prediction === 1 ? "A possible diabetes risk was detected" : "No diabetes-related warning was detected"}</h3>
                   <p>{result.prediction === 1
-                    ? "This is not a diagnosis. Consider discussing your measurements and appropriate laboratory testing with a qualified healthcare professional."
-                    : "This does not rule out diabetes or other health concerns. Speak with a healthcare professional if you have symptoms or concerns."}</p>
-                  <small>{result.disclaimer}</small>
+                    ? "Your entered measurements were classified by the AI model in the higher-risk category. This does not mean you have diabetes. Please discuss your results with a qualified healthcare professional, who may recommend a blood glucose or HbA1c test."
+                    : "Based on the measurements you entered, the AI model did not identify a diabetes-related warning. This does not guarantee that you are diabetes-free or rule out other health concerns. If you have symptoms or concerns, speak with a healthcare professional."
+                  }</p>
+                  <small>{result.disclaimer || "This is an educational AI screening estimate, not a medical diagnosis. Do not use it to make treatment decisions."}</small>
                 </div>
               </section>
             )}
