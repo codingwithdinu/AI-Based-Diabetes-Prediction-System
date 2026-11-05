@@ -1,95 +1,68 @@
-# 🩺 AI-Based Diabetes Prediction System
+# GlucoWise — AI-Based Diabetes Screening
 
-An educational machine-learning application using a Support Vector Machine (SVM) and a saved StandardScaler to classify input measurements using the Pima Indians Diabetes dataset.
+A Vercel-ready web application for an educational diabetes screening project. The frontend is built with Next.js and TypeScript; a Python Vercel Function serves predictions using the repository's existing Support Vector Machine model and fitted StandardScaler.
 
-> **Medical disclaimer:** This is an educational screening demonstration, not a medical device or diagnostic service. It has not been established as clinically validated. Do not use its output to diagnose diabetes, change medication, or delay medical care. Consult a qualified healthcare professional for medical advice and appropriate testing.
+> **Medical disclaimer:** This is an educational demonstration, not a medical device or diagnostic service. It is not clinically validated and must not be used to diagnose diabetes, make treatment decisions, or delay medical care. Consult a qualified healthcare professional.
 
-## Features
+## Architecture
 
-- Streamlit interface with input validation
-- Saved SVM model and fitted scaler
-- Model artifacts loaded relative to the app file
-- Cached model loading
-- Clear explanation of results and limitations
+- **Frontend:** Next.js 15, React 19, TypeScript, responsive CSS.
+- **API:** Python Vercel Function at `/api/predict`.
+- **Model:** Existing `diabetes_model.pkl` (SVM) and `scaler.pkl`.
+- **Flow:** Browser form → JSON API request → input validation → StandardScaler → SVM prediction → screening result.
 
-## Tech stack
+## Deploy to Vercel
 
-Python · Streamlit · NumPy · Pandas · scikit-learn · Support Vector Machine
+1. Push this repository to GitHub.
+2. Open [Vercel](https://vercel.com/new) and import `codingwithdinu/AI-Based-Diabetes-Prediction-System`.
+3. Keep the project root as the Root Directory.
+4. Framework preset should be detected as **Next.js**.
+5. Use the default install/build settings (Vercel runs `npm run build`).
+6. Deploy.
 
-## Repository structure
-
-```text
-.
-├── app.py
-├── diabetes.csv
-├── diabetes_model.pkl
-├── scaler.pkl
-├── requirements.txt
-└── Train_ML_Model.ipynb
-```
+No environment variables are required for the current model.
 
 ## Run locally
 
-Python 3.10 or 3.11 is recommended.
+Use Node.js 20+ and Python 3.12.
 
 ```bash
-git clone https://github.com/codingwithdinu/AI-Based-Diabetes-Prediction-System.git
-cd AI-Based-Diabetes-Prediction-System
-python -m venv .venv
+npm install
+npm run dev
 ```
 
-Activate the environment:
-
-**Windows PowerShell**
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-**macOS / Linux**
-```bash
-source .venv/bin/activate
-```
-
-Install and run:
+The Next.js interface starts at http://localhost:3000. To test the Python API locally, install dependencies and use Vercel CLI:
 
 ```bash
 python -m pip install -r requirements.txt
-python -m streamlit run app.py
+npm install -g vercel
+vercel dev
 ```
 
-Open the local URL printed by Streamlit (normally http://localhost:8501).
+## Model input order
 
-## Deploy on Streamlit Community Cloud
-
-1. Sign in at [Streamlit Community Cloud](https://share.streamlit.io/).
-2. Choose **Create app** and select this repository.
-3. Set branch to `main` and main file path to `app.py`.
-4. Deploy.
-
-Keep `app.py`, `requirements.txt`, `diabetes_model.pkl`, and `scaler.pkl` in the repository root.
-
-## Model inputs
-
-Input order must match the order used when fitting the model and scaler:
+The API preserves the original notebook's exact eight-feature order:
 
 1. Pregnancies
 2. Glucose
-3. Blood pressure
-4. Skin thickness
+3. BloodPressure
+4. SkinThickness
 5. Insulin
 6. BMI
-7. Diabetes pedigree function
+7. DiabetesPedigreeFunction
 8. Age
 
-The app uses the repository's pickle artifacts. Only load pickle files from a trusted source: unpickling an untrusted file can execute arbitrary code.
+## Deployment notes
+
+- Keep `diabetes_model.pkl` and `scaler.pkl` in the repository root. The Python function reads these files at runtime.
+- The Python runtime uses the dependencies in `requirements.txt`. Scikit-learn is pinned to reduce pickle compatibility surprises; serialized scikit-learn objects are not guaranteed to be compatible across versions.
+- Vercel Functions have a read-only filesystem except for temporary storage. This app does not write model artifacts or user data at runtime.
+- The existing `app.py` remains as the optional Streamlit version; Vercel serves the Next.js frontend and Python API instead.
 
 ## Model performance
 
-The original README reports approximately 78% training accuracy and 77% testing accuracy. These figures have not been independently re-evaluated as part of this interface update. Accuracy alone does not establish clinical suitability; validation on representative populations and metrics such as sensitivity, specificity, and calibration are important.
+The original notebook reports 78.66% training accuracy and 77.27% test accuracy on its split. These values have not been independently re-evaluated during the web-app conversion. Accuracy alone does not establish clinical suitability.
 
-## Limitations
+## Privacy and safety
 
-- Dataset-level performance may not generalize to other populations.
-- Input measurements and missing-value conventions affect predictions.
-- The output is a model classification, not a calibrated probability.
-- This application is not intended for clinical decision-making.
+The prediction endpoint accepts eight numeric values, validates finite values and expected ranges, and does not persist submissions. Do not upload identifiable patient records to this educational demo.
