@@ -60,9 +60,20 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ features }),
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Prediction request failed.");
-      setResult(data as Result);
+      const raw = await response.text();
+      let data: Record<string, unknown>;
+      try {
+        data = raw ? JSON.parse(raw) as Record<string, unknown> : {};
+      } catch {
+        throw new Error("Prediction service returned an invalid response (HTTP " + response.status + "). Please retry in a moment.");
+      }
+      if (!response.ok) {
+        throw new Error(typeof data.error === "string" ? data.error : "Prediction request failed (HTTP " + response.status + ").");
+      }
+      if (data.prediction !== 0 && data.prediction !== 1) {
+        throw new Error("The prediction service returned an unexpected result. Please try again.");
+      }
+      setResult(data as unknown as Result);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to connect to the prediction service.");
     } finally {
