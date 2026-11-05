@@ -1,110 +1,95 @@
 # 🩺 AI-Based Diabetes Prediction System
 
-## 📌 Project Overview
-Diabetes is a chronic disease that can lead to severe health complications if not detected early. This project presents an AI-based machine learning system designed to predict the likelihood of diabetes using key medical and demographic parameters. The system supports early diagnosis and aligns with the United Nations Sustainable Development Goal 3 (Good Health and Well-Being).
+An educational machine-learning application using a Support Vector Machine (SVM) and a saved StandardScaler to classify input measurements using the Pima Indians Diabetes dataset.
 
----
+> **Medical disclaimer:** This is an educational screening demonstration, not a medical device or diagnostic service. It has not been established as clinically validated. Do not use its output to diagnose diabetes, change medication, or delay medical care. Consult a qualified healthcare professional for medical advice and appropriate testing.
 
-## 🎯 Objective
-- To develop a machine learning model for early diabetes prediction  
-- To reduce dependence on invasive diagnostic procedures  
-- To provide a fast, cost-effective, and reliable screening tool  
-- To promote preventive healthcare using AI  
+## Features
 
----
+- Streamlit interface with input validation
+- Saved SVM model and fitted scaler
+- Model artifacts loaded relative to the app file
+- Cached model loading
+- Clear explanation of results and limitations
 
-## 🌍 Sustainable Development Goal
-**SDG 3: Good Health and Well-Being**  
-Ensure healthy lives and promote well-being for all at all ages.
+## Tech stack
 
----
+Python · Streamlit · NumPy · Pandas · scikit-learn · Support Vector Machine
 
-## 🧠 Technologies Used
-- Python  
-- Machine Learning (Support Vector Machine)  
-- NumPy, Pandas  
-- Scikit-learn  
-- Streamlit  
-- Jupyter Lab  
+## Repository structure
 
----
+```text
+.
+├── app.py
+├── diabetes.csv
+├── diabetes_model.pkl
+├── scaler.pkl
+├── requirements.txt
+└── Train_ML_Model.ipynb
+```
 
-## 📊 Dataset
-- PIMA Indians Diabetes Dataset  
-- Includes medical and demographic attributes such as glucose level, BMI, blood pressure, insulin, and age.
+## Run locally
 
----
+Python 3.10 or 3.11 is recommended.
 
-## ⚙️ Machine Learning Model
-- Algorithm: Support Vector Machine (SVM)
-- Data Standardization: StandardScaler
-- Model Evaluation Metric: Accuracy Score
+```bash
+git clone https://github.com/codingwithdinu/AI-Based-Diabetes-Prediction-System.git
+cd AI-Based-Diabetes-Prediction-System
+python -m venv .venv
+```
 
----
+Activate the environment:
 
-## 📈 Model Performance
-- Training Accuracy: ~78%
-- Testing Accuracy: ~77%
-- The model shows consistent performance with minimal overfitting.
+**Windows PowerShell**
+```powershell
+.venv\Scripts\Activate.ps1
+```
 
----
+**macOS / Linux**
+```bash
+source .venv/bin/activate
+```
 
-## 🌐 Live Application (Deployment)
+Install and run:
 
-The diabetes prediction system is deployed using Streamlit Community Cloud.
+```bash
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
+```
 
-🔗 Live App Link:
-👉 https://ai-based-diabetes-prediction-system.streamlit.app/
+Open the local URL printed by Streamlit (normally http://localhost:8501).
 
-### ▶️ How to Use the Live App
+## Deploy on Streamlit Community Cloud
 
-Open the deployment link in any web browser.
-Enter medical parameters such as:
-- Pregnancies
-- Glucose level
-- Blood Pressure
-- BMI
-- Age
-Click the Predict button.
-The system will display whether the person is Diabetic or Non-Diabetic.
-✅ No installation required
-✅ Accessible on mobile and desktop
+1. Sign in at [Streamlit Community Cloud](https://share.streamlit.io/).
+2. Choose **Create app** and select this repository.
+3. Set branch to `main` and main file path to `app.py`.
+4. Deploy.
 
-### ▶️ Run the Application Locally
+Keep `app.py`, `requirements.txt`, `diabetes_model.pkl`, and `scaler.pkl` in the repository root.
 
-To run the application on your local system:
-- pip install -r requirements.txt
-- streamlit run app.py
+## Model inputs
 
-### 📁 Project Structure
-- ├── app.py
-- ├── requirements.txt
-- ├── diabetes_model.pkl
-- ├── scaler.pkl
-- ├── Untitled.ipynb
-- ├── diabetes.csv
-- └── README.md
+Input order must match the order used when fitting the model and scaler:
 
-### 🧪 Sample Input for Testing
-- Pregnancies: 6
-- Glucose: 160
-- Blood Pressure: 80
-- Skin Thickness: 35
-- Insulin: 180
-- BMI: 35.2
-- Diabetes Pedigree Function: 0.65
-- Age: 50
+1. Pregnancies
+2. Glucose
+3. Blood pressure
+4. Skin thickness
+5. Insulin
+6. BMI
+7. Diabetes pedigree function
+8. Age
 
-## 🔮 Future Enhancements
+The app uses the repository's pickle artifacts. Only load pickle files from a trusted source: unpickling an untrusted file can execute arbitrary code.
 
-- Integration with mobile healthcare applications
-- Cloud deployment using IBM Cloud
-- Real-time monitoring using IoT devices
-- Extension to predict other chronic diseases
+## Model performance
 
-## 📝 Conclusion
+The original README reports approximately 78% training accuracy and 77% testing accuracy. These figures have not been independently re-evaluated as part of this interface update. Accuracy alone does not establish clinical suitability; validation on representative populations and metrics such as sensitivity, specificity, and calibration are important.
 
-This project demonstrates the effective application of Artificial Intelligence and Machine Learning in healthcare. By enabling early detection of diabetes, the system improves patient outcomes and aligns with SDG 3 – Good Health and Well-Being.
+## Limitations
 
----
-
+- Dataset-level performance may not generalize to other populations.
+- Input measurements and missing-value conventions affect predictions.
+- The output is a model classification, not a calibrated probability.
+- This application is not intended for clinical decision-making.
